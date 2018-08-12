@@ -10,8 +10,6 @@
 #include <queue>
 #include <functional>
 
-// #include <exception>
-
 #include <iostream>
 
 
@@ -27,6 +25,7 @@ namespace _jcode {
 	public:
 		/* Constructor & Destructor */
 		Dfs(std::vector<std::vector<int>>&);
+			// Ambiguous!!
 		
 		virtual ~Dfs();
 		
@@ -34,6 +33,6 @@ namespace _jcode {
 		// Getter
 		std::vector<std::vector<int>> getGraph() const;
 		
-		std::queue<int> runDfs(int, std::function<void(int, int)> = std::function<void(int, int)>(0)) const;
+		void runDfs(int, std::function<void(int, int)> = std::function<void(int, int)>(0)) const;
 	};	
 };

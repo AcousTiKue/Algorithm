@@ -10,8 +10,6 @@
 #include <queue>
 #include <functional>
 
-// #include <exception>
-
 #include <iostream>
 
 
@@ -33,5 +31,7 @@ namespace _jcode {
 		/* Interface */
 		// Getter
 		std::vector<std::vector<int>> getGraph() const;
+		
+		void runBfs(int, std::function<void(int, int)> = std::function<void(int, int)>(0)) const;
 	};	
 };

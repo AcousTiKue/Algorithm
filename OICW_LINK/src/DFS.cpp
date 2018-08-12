@@ -60,9 +60,23 @@ std::vector<std::vector<int>> _jcode::makeGraph() {
 // Constructor
 _jcode::Dfs::Dfs(std::vector<std::vector<int>>& argrGraph_) : Graph_(argrGraph_) {
 #ifdef _DEBUG
-	std::cout << "Dfs::Dfs()" << std::endl;
+	std::cout << "Dfs::Dfs(&)" << std::endl;
 #endif	
 };
+
+/*
+_jcode::Dfs::Dfs(std::vector<std::vector<int>>& argrGraph_) : Graph_(argrGraph_) {
+#ifdef _DEBUG
+	std::cout << "Dfs::Dfs(&)" << std::endl;
+#endif	
+};
+
+_jcode::Dfs::Dfs(std::vector<std::vector<int>>&& argrGraph_) : Graph_(argrGraph_) {
+#ifdef _DEBUG
+	std::cout << "Dfs::Dfs(&&)" << std::endl;
+#endif	
+};
+*/
 
 // Destructor
 _jcode::Dfs::~Dfs() {
@@ -82,14 +96,13 @@ std::vector<std::vector<int>> _jcode::Dfs::getGraph() const {
 
 
 /* Interface */
-std::queue<int> _jcode::Dfs::runDfs(int argvSrcNode_, std::function<void(int, int)> userDefinedRecordFunction) const {
+void _jcode::Dfs::runDfs(int argvSrcNode_, std::function<void(int, int)> userDefinedRecordFunction) const {
 	// argvSrcNode_ should be set as a starting node for searching.	
 #ifdef _DEBUG
 	std::cout << "Dfs::runDfs()" << std::endl;
 #endif	
 	
 	std::vector<bool> isVisited_(Graph_.size(), false);
-	std::queue<int> Route_;
 	
 	std::function<void(int)> DFS = [&](int argvSrc_) {
 		
@@ -101,7 +114,6 @@ std::queue<int> _jcode::Dfs::runDfs(int argvSrcNode_, std::function<void(int, in
 #ifdef _DEBUG
 				std::cout << "	> Moving from "<< argvSrc_ << " to " << itor_ << std::endl;
 #endif				
-				Route_.push(argvSrc_);
 				
 #ifdef _LINUX
 				if(userDefinedRecordFunction) // if not empty
@@ -117,6 +129,4 @@ std::queue<int> _jcode::Dfs::runDfs(int argvSrcNode_, std::function<void(int, in
 	};
 	
 	DFS(argvSrcNode_);
-	
-	return Route_;
 };
