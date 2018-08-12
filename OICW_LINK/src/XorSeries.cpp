@@ -93,3 +93,124 @@ const int _jcode::XorSeries::run() const {
 };
 
 
+
+// XorImproved
+// Constructor
+_jcode::XorSeriesImproved::XorSeriesImproved(const int& argrN_, std::list<BITSET>& argrSeriesA_) : N_(argrN_), SeriesA_(argrSeriesA_) {
+#ifdef _DEBUG_ON_
+	std::cout << "XorSeriesImproved::XorSeriesImproved()" << std::endl;
+#endif
+};
+
+
+// Destructor
+_jcode::XorSeriesImproved::~XorSeriesImproved() {
+#ifdef _DEBUG_ON_
+	std::cout << "XorSeriesImproved::~XorSeriesImproved()" << std::endl;
+#endif	
+	
+	SeriesA_.clear();
+};
+
+const int _jcode::XorSeriesImproved::run() const { 
+#ifdef _DEBUG_ON_
+	std::cout << "XorSeriesImproved::run()" << std::endl;
+#endif	
+	// Algorithm idea first provided by Lee Tae_Kyun
+	
+	enum { ZERO, ONE, ZERO_ONE_PAIR, ONE_ZERO_PAIR, SUM };
+	unsigned _count[5] = { 0, }; // Counters all set to zeros!!
+	bool _flag = 0;
+	
+	std::list<BITSET> __T = this->SeriesA_;
+	
+	// Splitting original series into two groups.
+	std::list<BITSET> _firstGroup;
+	std::list<BITSET> _secondGroup;
+	
+#define BOUNDARY 1073741824
+#define _DEBUG_ON_
+	
+	
+	for(int _itor = 30; _itor != -1; --_itor) { // Loops the bits.
+		
+#ifdef _DEBUG_ON_
+		std::cout << "	> Loop : _itor(" << _itor << ")" << std::endl;		
+#endif
+		
+		for(auto ListItor_ = __T.begin(); ListItor_ != __T.end(); ListItor_++) { // Loops the series
+			
+			// Link the second group right behind of the first group after setting the boundary,
+			// then clear the existing data in second group,
+			// since the sorting(grouping) process should move on maintaining relative positions.
+			
+			if(ListItor_->to_ulong() == BOUNDARY) { // if boundary, 
+
+				_firstGroup.push_back(BITSET(BOUNDARY));
+
+				if(!_secondGroup.empty())
+					_secondGroup.push_back(BITSET(BOUNDARY));
+
+				_firstGroup.splice(_firstGroup.end(), _secondGroup);
+				_secondGroup.clear();
+
+				// reset counter!!
+				_count[ONE] = _count[ZERO]  = 0;
+
+				continue;	
+			
+			} else {
+			
+				// Scan the largest bit
+				if(ListItor_->operator[](_itor)) { // When the first bit is zero, 
+					
+					_firstGroup.push_back(BITSET(ListItor_->to_string())); // push to the first list
+					
+					_count[ONE_ZERO_PAIR] += _count[ONE];
+					
+					_flag = 0; // reset the bit
+					_count[ZERO]++;
+					
+				} else { // if one
+					
+					_secondGroup.push_back(BITSET(ListItor_->to_string())); // push to the second list
+					
+					_count[ZERO_ONE_PAIR] += _count[ZERO];
+					_flag = 1; // set the bit
+					
+					_count[ONE]++;
+				}				
+			}
+		}
+		
+		// Accumulating values
+		_count[SUM] += std::max(_count[ZERO_ONE_PAIR], _count[ONE_ZERO_PAIR]);
+		
+		// Should maintain the status, thus __T should have sorted list by group.
+		// First set the boundary, link it with second group, move to __T, clear each groups.
+		// Operations below explains the process.
+		
+		if(!_secondGroup.empty()) {
+				
+			_firstGroup.push_back(BITSET(BOUNDARY));
+			_firstGroup.splice(_firstGroup.end(), _secondGroup);
+			
+		} else
+			;
+		
+		// Move
+		__T.clear();
+		__T = _firstGroup;
+		
+		// Clearing
+		_firstGroup.clear();
+		_secondGroup.clear();
+		
+		// reset counters!!
+		_count[ONE] = _count[ZERO] = _count[ONE_ZERO_PAIR] = _count[ZERO_ONE_PAIR] = 0;
+		
+	}
+	
+	return _count[SUM];
+};
+

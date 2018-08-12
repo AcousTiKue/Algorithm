@@ -15,6 +15,9 @@
 #include <algorithm>
 #include <vector>
 #include <deque>
+#include <list>
+
+#include <bitset>
 
 #ifdef _DEBUG_ON_
 #include <iostream>
@@ -66,4 +69,52 @@ namespace _jcode {
 		const int run() const;
 				
 	};
+	
+	
+	// class XorSeriesImproved
+	class XorSeriesImproved {
+	private:
+		// Field
+		const int N_;
+		
+#define BITSET std::bitset<31>
+		std::list<BITSET> SeriesA_;
+		
+	public:
+		// Constructor
+		explicit XorSeriesImproved(const int&, std::list<BITSET>&);
+		// Destructor
+		virtual ~XorSeriesImproved();
+		
+		/* Interface */
+			// No need for getters and setters, thus deleted.
+#ifdef __CXX14
+			// getters
+		const int getB() const = delete;
+		const std::string getSeriesA() const = delete;
+		const std::string getSeriesB() const = delete;
+		
+			// setters
+		void setSeriesA() = delete;
+
+#elif defined(__CXX11)
+		
+	private:
+		// C++11 does not support 'delete' syntax, so only declared in private scope!!
+					// getters
+		const int getB() const;
+		const std::string getSeriesA() const;
+		const std::string getSeriesB() const;
+		
+			// setters
+		void setSeriesA();
+		
+	public:
+#endif
+		// run()
+		const int run() const;
+		
+	};
+	
+	
 };
