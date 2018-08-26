@@ -28,7 +28,7 @@
 #define _LINUX
 
 /* Global function */
-std::vector<std::vector<int>> _jcode::makeGraph() {
+std::vector<std::vector<int>> _jcode::makeGraph2() {
 #ifdef _DEBUG
 				std::cout << "makeGraph()" << std::endl;
 #endif	

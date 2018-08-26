@@ -5,13 +5,15 @@
 // File: DFS.cpp
 
 /*
-5
+7
 
-0 1 1 0 0
-1 0 0 0 0
-0 1 0 1 1
-1 1 0 0 0
-1 0 0 1 0
+0 1 1 0 1 1 1
+1 0 1 0 1 0 1
+0 1 0 1 1 0 0
+1 1 0 0 0 1 1
+1 0 1 1 0 1 0
+1 0 0 1 0 0 1
+1 1 1 0 1 0 0
 */
 
 #define _RELATIVE
@@ -28,7 +30,7 @@
 #define _LINUX
 
 /* Global function */
-std::vector<std::vector<int>> _jcode::makeGraph() {
+std::vector<std::vector<int>> _jcode::makeGraphDfs() {
 #ifdef _DEBUG
 				std::cout << "makeGraph()" << std::endl;
 #endif	
@@ -64,19 +66,6 @@ _jcode::Dfs::Dfs(std::vector<std::vector<int>>& argrGraph_) : Graph_(argrGraph_)
 #endif	
 };
 
-/*
-_jcode::Dfs::Dfs(std::vector<std::vector<int>>& argrGraph_) : Graph_(argrGraph_) {
-#ifdef _DEBUG
-	std::cout << "Dfs::Dfs(&)" << std::endl;
-#endif	
-};
-
-_jcode::Dfs::Dfs(std::vector<std::vector<int>>&& argrGraph_) : Graph_(argrGraph_) {
-#ifdef _DEBUG
-	std::cout << "Dfs::Dfs(&&)" << std::endl;
-#endif	
-};
-*/
 
 // Destructor
 _jcode::Dfs::~Dfs() {
@@ -96,33 +85,32 @@ std::vector<std::vector<int>> _jcode::Dfs::getGraph() const {
 
 
 /* Interface */
-void _jcode::Dfs::runDfs(int argvSrcNode_, std::function<void(int, int)> userDefinedRecordFunction) const {
+void _jcode::Dfs::run(int argvSrcNode_, std::function<void(int)> userDefinedRecordFunction) const {
 	// argvSrcNode_ should be set as a starting node for searching.	
 #ifdef _DEBUG
-	std::cout << "Dfs::runDfs()" << std::endl;
+	std::cout << "Dfs::run()" << std::endl;
 #endif	
 	
 	std::vector<bool> isVisited_(Graph_.size(), false);
 	
 	std::function<void(int)> DFS = [&](int argvSrc_) {
-		./
+		
 		isVisited_.at(argvSrc_) = true;
+						
+#ifdef _LINUX
+				if(userDefinedRecordFunction) // if not empty
+					userDefinedRecordFunction(argvSrc_); // recording
+#elif
+				if(!userDefinedRecordFunction._Empty())
+					userDefinedRecordFunction(argvSrc_); // recording
+#endif		
 		
 		for(unsigned itor_ = 0; itor_ < Graph_.size(); itor_++) {
 			
 			if(Graph_[argvSrc_][itor_] != 0 && !isVisited_[itor_]) {
 #ifdef _DEBUG
 				std::cout << "	> Moving from "<< argvSrc_ << " to " << itor_ << std::endl;
-#endif				
-				
-#ifdef _LINUX
-				if(userDefinedRecordFunction) // if not empty
-					userDefinedRecordFunction(argvSrc_, itor_); // recording
-#elif
-				if(!userDefinedRecordFunction._Empty())
-					userDefinedRecordFunction(argvSrc_, itor_); // recording
-#endif
-				
+#endif								
 				DFS(itor_);
 			}
 		}

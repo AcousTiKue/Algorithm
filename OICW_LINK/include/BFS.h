@@ -16,7 +16,7 @@
 namespace _jcode {
 	
 	/* std::vector<std::vector<int>> makeGraph(); */
-	std::vector<std::vector<int>> makeGraph();
+	std::vector<std::vector<int>> makeGraphBfs();
 	
 	class Bfs final {
 	private:
@@ -32,6 +32,6 @@ namespace _jcode {
 		// Getter
 		std::vector<std::vector<int>> getGraph() const;
 		
-		void runBfs(int, std::function<void(int, int)> = std::function<void(int, int)>(0)) const;
+		void run(int, std::function<void(int)> = std::function<void(int)>(0)) const;
 	};	
 };

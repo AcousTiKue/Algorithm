@@ -18,7 +18,7 @@
 namespace _jcode {
 	
 	/* std::vector<std::vector<int>> makeGraph(); */
-	std::vector<std::vector<int>> makeGraph();
+	std::vector<std::vector<int>> makeGraph2();
 	
 	class Dfs final {
 	private:
@@ -34,6 +34,6 @@ namespace _jcode {
 		// Getter
 		std::vector<std::vector<int>> getGraph() const;
 		
-		std::queue<int> runDfs(int, std::function<void(int, int)> = std::function<void(int, int)>(0)) const;
+		void run(int, std::function<void(int)> = std::function<void(int)>(0)) const;
 	};	
 };

@@ -1,8 +1,8 @@
 // [Link] Algorithm Study
-// Environment: Windows 7 32-bit, Visual Studio Professional 2013, VS2010 Platform Tool
+// Environment: Ubuntu LTS 14
 // Author: Air Force Operations Information & Communication Wing, KTMO-Cell S/W Support, SukJoon Oh
 // Version: Experimental
-// File: DFS.h
+// File: BFS.h
 
 #define _DEBUG
 
@@ -16,23 +16,22 @@
 namespace _jcode {
 	
 	/* std::vector<std::vector<int>> makeGraph(); */
-	std::vector<std::vector<int>> makeGraphDfs();
+	std::vector<std::vector<int>> makeGraphBfs();
 	
-	class Dfs final {
+	class Bfs final {
 	private:
 		std::vector<std::vector<int>> Graph_;	
 		
 	public:
 		/* Constructor & Destructor */
-		Dfs(std::vector<std::vector<int>>&);
-			// Ambiguous!!
+		Bfs(std::vector<std::vector<int>>&);
 		
-		virtual ~Dfs();
+		virtual ~Bfs();
 		
 		/* Interface */
 		// Getter
 		std::vector<std::vector<int>> getGraph() const;
 		
-		void run(int, std::function<void(int)> = std::function<void(int)>(0)) const;
+		void runBfs(int, std::function<void(int, int)> = std::function<void(int, int)>(0)) const;
 	};	
 };

@@ -15,7 +15,7 @@
 #define _LINUX
 
 /* Global function */
-std::vector<std::vector<int>> _jcode::makeGraphBfs() {
+std::vector<std::vector<int>> _jcode::makeGraph() {
 #ifdef _DEBUG
 				std::cout << "makeGraph()" << std::endl;
 #endif	
@@ -69,15 +69,13 @@ std::vector<std::vector<int>> _jcode::Bfs::getGraph() const {
 
 
 /* Interface */
-void _jcode::Bfs::run(int argvSrcNode_, std::function<void(int)> userDefinedRecordFunction) const {
+void _jcode::Bfs::runBfs(int argvSrcNode_, std::function<void(int, int)> userDefinedRecordFunction) const {
 	// argvSrcNode_ should be set as a starting node for searching.	
 #ifdef _DEBUG
 	std::cout << "Bfs::runBfs()" << std::endl;
 #endif
 	
 	std::vector<bool> isVisited_(Graph_.size(), false);
-	std::vector<bool> isInQueue_(Graph_.size(), false);
-	
 	std::queue<int> __T;
 		
 	
@@ -97,26 +95,23 @@ void _jcode::Bfs::run(int argvSrcNode_, std::function<void(int)> userDefinedReco
 			
 			__T.pop();
 			
-#ifdef _LINUX
-			if(userDefinedRecordFunction) // if not empty
-				userDefinedRecordFunction(CurrentNode_); // recording
-#elif
-			if(!userDefinedRecordFunction._Empty())
-				userDefinedRecordFunction(CurrentNode_); // recording
-#endif
-			
 			for(unsigned itor_ = 0; itor_ < Graph_.size(); itor_++) {
 				
 				if(Graph_[CurrentNode_][itor_] != 0 && !isVisited_[itor_]) {
 					
-					if(!isInQueue_.at(itor_))
-						__T.push(itor_);
-					
+					__T.push(itor_);
 					isVisited_.at(itor_) = true;
 					
 #ifdef _DEBUG
 				std::cout << "	> Moving from "<< CurrentNode_ << " to " << itor_ << std::endl;
 #endif
+#ifdef _LINUX
+				if(userDefinedRecordFunction) // if not empty
+					userDefinedRecordFunction(CurrentNode_, itor_); // recording
+#elif
+				if(!userDefinedRecordFunction._Empty())
+					userDefinedRecordFunction(CurrentNode_, itor_); // recording
+#endif					
 				}
 			}
 			
